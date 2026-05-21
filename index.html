@@ -94,7 +94,7 @@
             box-sizing: border-box;
         }
 
-        /* Full Start Screen Customizer Overlay */
+        /* Character Creator Overlay Screen */
         #start-screen {
             position: absolute;
             top: 0;
@@ -125,10 +125,22 @@
         }
 
         .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            width: 340px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 280px;
+            max-height: 260px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Cute Scrollbar for options */
+        .options-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .options-grid::-webkit-scrollbar-thumb {
+            background: #ffb6c1;
+            border-radius: 3px;
         }
 
         .preview-box {
@@ -136,7 +148,7 @@
             flex-direction: column;
             align-items: center;
             background: #2d1b28;
-            padding: 15px;
+            padding: 20px;
             border: 4px solid #ff69b4;
             border-radius: 8px;
         }
@@ -187,64 +199,65 @@
     <div id="game-container">
         <div id="start-screen">
             <h2 style="color: #ff1493; margin-top: 0; margin-bottom: 5px;">✨ Character Creator ✨</h2>
-            <p style="color: #db7093; margin-bottom: 15px; font-size: 14px;">Style your magical heroine before entering the rift!</p>
+            <p style="color: #db7093; margin-bottom: 15px; font-size: 14px;">Style your heroine with the colors of the rainbow!</p>
             
             <div class="creator-workspace">
                 <div class="options-grid">
                     <div class="control-group">
-                        <label for="hair-style">Hair Color:</label>
+                        <label for="hair-style">🌈 Hair Color:</label>
                         <select id="hair-style">
-                            <option value="#ff66cc">Bubblegum Pink</option>
-                            <option value="#ffcc00">Golden Blonde</option>
-                            <option value="#9933ff">Pastel Purple</option>
-                            <option value="#33ccff">Cotton Candy Blue</option>
-                            <option value="#ff3333">Crimson Ruby</option>
-                            <option value="#ffffff">Mystic White</option>
+                            <option value="#ff4d4d">❤️ Strawberry Red</option>
+                            <option value="#ffa500">🧡 Apricot Orange</option>
+                            <option value="#ffff66">💛 Lemon Yellow</option>
+                            <option value="#7fff00">💚 Lime Green</option>
+                            <option value="#33ccff">💙 Cotton Candy Blue</option>
+                            <option value="#4b0082">💜 Indigo Purple</option>
+                            <option value="#ff66cc" selected>💖 Bubblegum Pink (Violet-Rose)</option>
                         </select>
                     </div>
+
                     <div class="control-group">
-                        <label for="armor-style">Armor Color:</label>
+                        <label for="armor-style">🌈 Armor Color:</label>
                         <select id="armor-style">
-                            <option value="#ffb6c1">Light Rose</option>
-                            <option value="#ff1493">Deep Magenta</option>
-                            <option value="#da70d6">Orchid Ribbon</option>
-                            <option value="#ffffff">Pearl Diamond</option>
-                            <option value="#00ffff">Cyber Neon Pink/Blue</option>
-                            <option value="#ffd700">Royal Gold Trim</option>
+                            <option value="#ff3333">❤️ Ruby Plate</option>
+                            <option value="#ff8c00">🧡 Amber Shell</option>
+                            <option value="#ffeb3b">💛 Gold Mail</option>
+                            <option value="#00ff88">💚 Emerald Steel</option>
+                            <option value="#00ccff">💙 Sapphire Ribbon</option>
+                            <option value="#2e0854">💜 Cosmic Indigo</option>
+                            <option value="#ffb6c1" selected>💖 Pastel Rose Coat</option>
                         </select>
                     </div>
+
                     <div class="control-group">
-                        <label for="weapon-style">Magic Tool:</label>
+                        <label for="weapon-style">🌈 Magic Tool:</label>
                         <select id="weapon-style">
-                            <option value="#ffff99">★ Star Wand</option>
-                            <option value="#ff66b2">♥ Heart Scepter</option>
-                            <option value="#a0e6ff">♦ Crystal Blade</option>
-                            <option value="#ff9933">🔥 Phoenix Torch</option>
+                            <option value="#ff1a1a">❤️ Heart Wand</option>
+                            <option value="#ff7518">🧡 Sun Flare Scepter</option>
+                            <option value="#ffff99" selected>💛 Classic Star Scepter</option>
+                            <option value="#32cd32">💚 Clover Staff</option>
+                            <option value="#00f5ff">💙 Ice Prism Rod</option>
+                            <option value="#41006f">💜 Nightshade Relic</option>
+                            <option value="#da70d6">💖 Orchid Star Wand</option>
                         </select>
                     </div>
+
                     <div class="control-group">
-                        <label for="skin-style">Skin Tone:</label>
-                        <select id="skin-style">
-                            <option value="#ffe4e1">Rosey Peach</option>
-                            <option value="#ffdbac">Warm Sand</option>
-                            <option value="#e0ac69">Golden Honey</option>
-                            <option value="#8d5524">Deep Cocoa</option>
-                            <option value="#f0ffff">Ethereal Snow</option>
-                        </select>
-                    </div>
-                    <div class="control-group" style="grid-column: span 2;">
-                        <label for="eye-style">Gaze Style / Eyes:</label>
+                        <label for="eye-style">🌈 Eye Gaze:</label>
                         <select id="eye-style">
-                            <option value="#4b0082">Amethyst Indigo</option>
-                            <option value="#00ced1">Vibrant Turquoise</option>
-                            <option value="#ff00ff">Magical Magenta</option>
-                            <option value="#32cd32">Emerald Green</option>
+                            <option value="#ff0000">❤️ Fierce Crimson</option>
+                            <option value="#ff7f50">🧡 Sunset Coral</option>
+                            <option value="#ffd700">💛 Pixie Amber</option>
+                            <option value="#00ff00">💚 Forest Jade</option>
+                            <option value="#00ced1">💙 Ocean Aqua</option>
+                            <option value="#4b0082" selected>💜 Royal Indigo</option>
+                            <option value="#ff00ff">💖 Sweet Magenta</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="preview-box">
-                    <span style="color: #ffb6c1; font-size: 11px; margin-bottom: 5px; font-weight: bold;">LIVE PREVIEW</span>
+                    <span style="color: #ffb6c1; font-size: 11px; margin-bottom: 8px; font-weight: bold; letter-spacing: 1px;">LIVE PREVIEW</span>
                     <canvas id="previewCanvas" width="120" height="120"></canvas>
                 </div>
             </div>
@@ -282,7 +295,7 @@ const ctx = canvas.getContext("2d");
 const previewCanvas = document.getElementById("previewCanvas");
 const pCtx = previewCanvas.getContext("2d");
 
-// Game State Variables
+// Game State Engine Loops
 let gameStarted = false;
 let currentLevel = 1;
 let score = 0;
@@ -291,17 +304,16 @@ let gameOver = false;
 let gameWon = false;
 let animationTimer = 0;
 
-// Customization DOM Select Elements
+// Dom Customization Bindings
 const hairSelect = document.getElementById("hair-style");
 const armorSelect = document.getElementById("armor-style");
 const weaponSelect = document.getElementById("weapon-style");
-const skinSelect = document.getElementById("skin-style");
 const eyeSelect = document.getElementById("eye-style");
 
 const startScreen = document.getElementById("start-screen");
 const startBtn = document.getElementById("start-btn");
 
-// Entity Definitions
+// Base Player Physics Settings
 const player = {
     x: 50,
     y: 200,
@@ -318,17 +330,17 @@ let enemies = [];
 let items = [];
 let particles = [];
 
-// Input Event Triggers
+// Input Management System
 const keys = {};
 window.addEventListener("keydown", e => { if(gameStarted) keys[e.key.toLowerCase()] = true; });
 window.addEventListener("keyup", e => { if(gameStarted) keys[e.key.toLowerCase()] = false; });
 
-// Real-Time Preview Rendering Engine
+// Live Graphic Generator Function for Customization phase
 function renderCharacterPreview() {
     pCtx.fillStyle = "#382333";
     pCtx.fillRect(0, 0, previewCanvas.width, previewCanvas.height);
 
-    // Subtle magical sparkle backdrop grid in preview window
+    // Mini decorative backdrop grid squares
     pCtx.fillStyle = "#4a3043";
     for(let i=0; i<previewCanvas.width; i+=20) {
         for(let j=0; j<previewCanvas.height; j+=20) {
@@ -336,54 +348,53 @@ function renderCharacterPreview() {
         }
     }
 
-    // Centered scaling configurations
+    // Dynamic scale and positioning configs for preview avatar box
     const cx = 36; 
     let cy = 30;
-    const size = 48; // Double resolution scale variant for preview viewport
+    const size = 48; 
 
-    // Simple pixel bobbing animation logic
+    // Character floaty idle animation timing calculations
     animationTimer += 0.05;
-    let bob = Math.sin(animationTimer) * 2;
+    let bob = Math.sin(animationTimer) * 2.5;
     cy += bob;
 
     const hColor = hairSelect.value;
     const aColor = armorSelect.value;
     const wColor = weaponSelect.value;
-    const sColor = skinSelect.value;
     const eColor = eyeSelect.value;
 
-    // 1. Draw Armor Foundation Plate
+    // 1. Draw Armor Base Plate Body block
     pCtx.fillStyle = aColor;
     pCtx.fillRect(cx, cy + 16, size, size - 16);
 
-    // 2. Draw Skin Layer
-    pCtx.fillStyle = sColor; 
+    // 2. Draw Soft Blush Head Base
+    pCtx.fillStyle = "#ffe4e1"; 
     pCtx.fillRect(cx + 8, cy, size - 16, 20);
 
-    // 3. Draw Hair Overlay Layout
+    // 3. Layer Hair Extensions Layout
     pCtx.fillStyle = hColor;
-    pCtx.fillRect(cx + 4, cy, size - 8, 8); // top hair
-    pCtx.fillRect(cx + 4, cy, 8, 24);      // left bang
-    pCtx.fillRect(cx + size - 12, cy, 8, 24); // right bang
+    pCtx.fillRect(cx + 4, cy, size - 8, 8);    // hair scalp
+    pCtx.fillRect(cx + 4, cy, 8, 24);         // left locks
+    pCtx.fillRect(cx + size - 12, cy, 8, 24); // right locks
 
-    // 4. Draw Selected Custom Eyes
+    // 4. Set Eye Color Highlights
     pCtx.fillStyle = eColor;
     pCtx.fillRect(cx + 14, cy + 10, 4, 6);
     pCtx.fillRect(cx + size - 18, cy + 10, 4, 6);
 
-    // 5. Draw Selected Scepter / Wand Tool Asset
+    // 5. Draw Handheld Staff / Tool Equipment
     pCtx.fillStyle = wColor;
-    pCtx.fillRect(cx + size - 2, cy + 12, 6, 28); // weapon shaft
+    pCtx.fillRect(cx + size - 2, cy + 12, 6, 28); // Shaft handle
     pCtx.fillStyle = "#ffffcc";
-    pCtx.fillRect(cx + size - 6, cy + 4, 14, 10); // glowing tip element
+    pCtx.fillRect(cx + size - 6, cy + 4, 14, 10); // Star Tip Core
 }
 
-// Attach change preview refresh events to inputs
-[hairSelect, armorSelect, weaponSelect, skinSelect, eyeSelect].forEach(element => {
+// Watchers for immediate real time visual feedback update triggers
+[hairSelect, armorSelect, weaponSelect, eyeSelect].forEach(element => {
     element.addEventListener("change", renderCharacterPreview);
 });
 
-// Initialization of Character Start Flow
+// Play button initialization script trigger
 startBtn.addEventListener("click", () => {
     startScreen.style.display = "none";
     gameStarted = true;
@@ -391,14 +402,14 @@ startBtn.addEventListener("click", () => {
     loop();
 });
 
-// Spawning Layout Map System
+// Dynamic Level Spawning Generators
 function initLevel(level) {
     player.x = 50;
     player.y = 200;
     enemies = [];
     items = [];
     
-    // Materials / armor loot chests random drops
+    // Spawn Material Shards and Sparkly Shields
     for(let i=0; i < 5 + level * 2; i++) {
         items.push({
             x: 120 + Math.random() * 240,
@@ -409,7 +420,7 @@ function initLevel(level) {
         });
     }
 
-    // Minion wave configs
+    // Minion wave configurations
     for(let i=0; i < 3 + level; i++) {
         enemies.push({
             x: 200 + Math.random() * 150,
@@ -423,7 +434,7 @@ function initLevel(level) {
         });
     }
 
-    // Boss Entity
+    // Boss Entities
     enemies.push({
         x: 410,
         y: 170,
@@ -448,7 +459,7 @@ function spawnParticles(x, y, color, count=5) {
     }
 }
 
-// Logic Core Loop Updates
+// Logical Update Core Processing
 function update() {
     if (gameOver || gameWon || !gameStarted) return;
 
@@ -459,7 +470,7 @@ function update() {
 
     if (player.attackCooldown > 0) player.attackCooldown--;
 
-    // Item Pickup Verification
+    // Pickups processing check
     items = items.filter(item => {
         let dist = Math.hypot((player.x + player.size/2) - item.x, (player.y + player.size/2) - item.y);
         if (dist < player.size/2 + item.size) {
@@ -476,7 +487,7 @@ function update() {
         return true;
     });
 
-    // Enemy Trackers
+    // Enemy processing track loops
     enemies.forEach((enemy) => {
         let dx = (player.x + player.size/2) - (enemy.x + enemy.size/2);
         let dy = (player.y + player.size/2) - (enemy.y + enemy.size/2);
@@ -487,7 +498,7 @@ function update() {
             enemy.y += (dy / dist) * enemy.speed;
         }
 
-        // Proximity automated magic striking
+        // Auto proximity magic tool swipe
         if (dist < 65 && player.attackCooldown === 0) {
             enemy.hp -= player.attackPower;
             spawnParticles(enemy.x + enemy.size/2, enemy.y + enemy.size/2, weaponSelect.value, 6);
@@ -531,7 +542,7 @@ function update() {
     document.getElementById("lbl-level").innerText = currentLevel;
 }
 
-// Main Frame Rendering Map Screen
+// Frame Draw Render Engine pipeline
 function draw() {
     ctx.fillStyle = "#2d1b28";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -545,7 +556,7 @@ function draw() {
 
     if (!gameStarted) return;
 
-    // Items
+    // Items Draw
     items.forEach(item => {
         ctx.beginPath();
         if(item.type === 'material') {
@@ -563,7 +574,7 @@ function draw() {
         ctx.fillRect(item.x - 2, item.y - 4, 3, 3);
     });
 
-    // Enemies
+    // Enemies Draw
     enemies.forEach(enemy => {
         ctx.fillStyle = enemy.color;
         ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
@@ -582,17 +593,16 @@ function draw() {
         ctx.fillRect(enemy.x, enemy.y - 10, hpBarWidth, 5);
     });
 
-    // Player Rendering Matrix
+    // Main Canvas Heroine Drawing Block Matrix
     const hColor = hairSelect.value;
     const aColor = armorSelect.value;
     const wColor = weaponSelect.value;
-    const sColor = skinSelect.value;
     const eColor = eyeSelect.value;
 
     ctx.fillStyle = aColor;
     ctx.fillRect(player.x, player.y + 8, player.size, player.size - 8);
 
-    ctx.fillStyle = sColor; 
+    ctx.fillStyle = "#ffe4e1"; 
     ctx.fillRect(player.x + 4, player.y, player.size - 8, 10);
 
     ctx.fillStyle = hColor;
@@ -614,7 +624,7 @@ function draw() {
         ctx.fillRect(p.x, p.y, 4, 4);
     });
 
-    // Termination Screens
+    // Game End HUD Canvas Splashes
     if (gameOver) {
         ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -637,7 +647,7 @@ function draw() {
     }
 }
 
-// Preview Engine Loop Runner (Runs pre-game setup phase)
+// Initial Phase configuration loop runner
 function previewLoop() {
     if(!gameStarted) {
         renderCharacterPreview();
@@ -651,7 +661,7 @@ function loop() {
     requestAnimationFrame(loop);
 }
 
-// Start Setup Execution Engine Initializer
+// Initial Kickstarts
 draw();
 previewLoop();
 </script>
