@@ -30,6 +30,7 @@
             border: 6px solid #ffb6c1;
             border-radius: 15px;
             box-shadow: 0px 10px 0px #ffb6c1;
+            position: relative;
         }
 
         #controls-panel {
@@ -55,7 +56,7 @@
         }
 
         select {
-            padding: 5px;
+            padding: 8px;
             border: 2px solid #ffb6c1;
             border-radius: 5px;
             background: #fff5f8;
@@ -89,6 +90,46 @@
             box-sizing: border-box;
         }
 
+        /* Start Screen Overlay */
+        #start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 238, 248, 0.95);
+            border-radius: 9px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        #start-btn {
+            margin-top: 25px;
+            padding: 12px 30px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            background: #ff69b4;
+            border: 3px solid #ffb6c1;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0px 5px 0px #d147a3;
+            transition: all 0.1s ease;
+        }
+
+        #start-btn:hover {
+            background: #ff1493;
+        }
+
+        #start-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0px 2px 0px #d147a3;
+        }
+
         .instructions {
             margin-top: 15px;
             text-align: center;
@@ -105,39 +146,50 @@
     <h1>✨ Vale's Dungeon ✨</h1>
 
     <div id="game-container">
+        <div id="start-screen">
+            <h2 style="color: #ff1493; margin-bottom: 5px;">✨ Character Creator ✨</h2>
+            <p style="color: #db7093; margin-bottom: 20px;">Design your heroine before entering the dungeon!</p>
+            
+            <div style="display: flex; gap: 20px; background: white; padding: 20px; border: 3px solid #ffb6c1; border-radius: 10px;">
+                <div class="control-group">
+                    <label for="hair-style">Hair Color:</label>
+                    <select id="hair-style">
+                        <option value="#ff66cc">Bubblegum Pink</option>
+                        <option value="#ffcc00">Golden Blonde</option>
+                        <option value="#9933ff">Pastel Purple</option>
+                        <option value="#33ccff">Cotton Candy Blue</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="armor-style">Armor Style:</label>
+                    <select id="armor-style">
+                        <option value="#ffb6c1">Light Rose Plate</option>
+                        <option value="#ff1493">Deep Magenta Mail</option>
+                        <option value="#da70d6">Orchid Ribbon Steel</option>
+                        <option value="#ffffff">Pearl Diamond</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="weapon-style">Magic Tool:</label>
+                    <select id="weapon-style">
+                        <option value="#ffff99">Star Wand</option>
+                        <option value="#ff66b2">Heart Scepter</option>
+                        <option value="#a0e6ff">Crystal Blade</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="start-btn">Start Quest ✨</button>
+        </div>
+
         <div id="controls-panel">
-            <h3>💖 Customize 💖</h3>
-            <div class="control-group">
-                <label for="hair-style">Hair Color:</label>
-                <select id="hair-style">
-                    <option value="#ff66cc">Bubblegum Pink</option>
-                    <option value="#ffcc00">Golden Blonde</option>
-                    <option value="#9933ff">Pastel Purple</option>
-                    <option value="#33ccff">Cotton Candy Blue</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="armor-style">Armor Style:</label>
-                <select id="armor-style">
-                    <option value="#ffb6c1">Light Rose Plate</option>
-                    <option value="#ff1493">Deep Magenta Mail</option>
-                    <option value="#da70d6">Orchid Ribbon Steel</option>
-                    <option value="#ffffff">Pearl Diamond</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="weapon-style">Magic Tool:</label>
-                <select id="weapon-style">
-                    <option value="#ffff99">Star Wand</option>
-                    <option value="#ff66b2">Heart Scepter</option>
-                    <option value="#a0e6ff">Crystal Blade</option>
-                </select>
-            </div>
-            <hr style="border: 1px pink solid; width: 100%;">
+            <h3>💖 Status 💖</h3>
             <div id="game-info">
-                <strong>Level:</strong> <span id="lbl-level">1</span><br>
+                <strong>Level:</strong> <span id="lbl-level">1</span><br><br>
                 <strong>Materials:</strong> <span id="lbl-mats">0</span>
             </div>
+            <hr style="border: 1px pink solid; width: 100%; margin-top: auto;">
+            <p style="font-size: 11px; color: #db7093; text-align: center;">Dungeon Crawl Mode Active</p>
         </div>
 
         <div id="canvas-container">
@@ -159,6 +211,7 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 // Game State Variables
+let gameStarted = false;
 let currentLevel = 1;
 let score = 0;
 let materialsCollected = 0;
@@ -169,6 +222,8 @@ let gameWon = false;
 const hairSelect = document.getElementById("hair-style");
 const armorSelect = document.getElementById("armor-style");
 const weaponSelect = document.getElementById("weapon-style");
+const startScreen = document.getElementById("start-screen");
+const startBtn = document.getElementById("start-btn");
 
 // Entity Definitions
 const player = {
@@ -186,16 +241,22 @@ const player = {
 let enemies = [];
 let items = [];
 let particles = [];
-let bossActive = false;
 
 // Input Handler
 const keys = {};
-window.addEventListener("keydown", e => keys[e.key.toLowerCase()] = true);
-window.addEventListener("keyup", e => keys[e.key.toLowerCase()] = false);
+window.addEventListener("keydown", e => { if(gameStarted) keys[e.key.toLowerCase()] = true; });
+window.addEventListener("keyup", e => { if(gameStarted) keys[e.key.toLowerCase()] = false; });
+
+// Start Button Event Listener
+startBtn.addEventListener("click", () => {
+    startScreen.style.display = "none";
+    gameStarted = true;
+    initLevel(currentLevel);
+    loop();
+});
 
 // Spawning Logic
 function initLevel(level) {
-    bossActive = false;
     player.x = 50;
     player.y = 200;
     enemies = [];
@@ -220,7 +281,7 @@ function initLevel(level) {
             size: 20,
             hp: 20 + (level * 10),
             maxHp: 20 + (level * 10),
-            color: '#dda0dd', // Plum/purple minions
+            color: '#dda0dd', 
             isBoss: false,
             speed: 1 + (Math.random() * 0.5)
         });
@@ -233,7 +294,7 @@ function initLevel(level) {
         size: 45,
         hp: 100 + (level * 80),
         maxHp: 100 + (level * 80),
-        color: '#ff4d94', // Fierce Pink Boss
+        color: '#ff4d94', 
         isBoss: true,
         speed: 1.2
     });
@@ -254,7 +315,7 @@ function spawnParticles(x, y, color, count=5) {
 
 // Update loop logic
 function update() {
-    if (gameOver || gameWon) return;
+    if (gameOver || gameWon || !gameStarted) return;
 
     // Movement
     if (keys['arrowup'] || keys['w']) player.y = Math.max(20, player.y - player.speed);
@@ -274,7 +335,7 @@ function update() {
                 materialsCollected++;
                 score += 50;
             } else {
-                player.defense += 2; // Extra pink armor scaling
+                player.defense += 2; 
                 score += 100;
             }
             return false;
@@ -284,7 +345,6 @@ function update() {
 
     // Update Enemies Logic
     enemies.forEach((enemy, index) => {
-        // Move towards player
         let dx = (player.x + player.size/2) - (enemy.x + enemy.size/2);
         let dy = (player.y + player.size/2) - (enemy.y + enemy.size/2);
         let dist = Math.hypot(dx, dy);
@@ -298,13 +358,13 @@ function update() {
         if (dist < 60 && player.attackCooldown === 0) {
             enemy.hp -= player.attackPower;
             spawnParticles(enemy.x + enemy.size/2, enemy.y + enemy.size/2, weaponSelect.value, 6);
-            player.attackCooldown = 25; // rate of swing
+            player.attackCooldown = 25; 
         }
 
         // Enemy Deals Damage to Player
         if (dist < (player.size/2 + enemy.size/2)) {
             let damageTaken = enemy.isBoss ? 2 : 1;
-            damageTaken = Math.max(0.2, damageTaken - (player.defense * 0.05)); // armor reducing dmg
+            damageTaken = Math.max(0.2, damageTaken - (player.defense * 0.05)); 
             player.hp -= damageTaken;
             if (player.hp <= 0) {
                 player.hp = 0;
@@ -329,10 +389,8 @@ function update() {
         }
     });
 
-    // Filter out dead enemies
     enemies = enemies.filter(e => e.hp > 0);
 
-    // Process particles
     particles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
@@ -350,11 +408,10 @@ function update() {
 
 // Rendering graphics function
 function draw() {
-    // Canvas floor fill (Dungeon background)
     ctx.fillStyle = "#2d1b28";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw cute layout checkered grid patterns subtly
+    // Grid details
     ctx.fillStyle = "#382333";
     for(let i=0; i<canvas.width; i+=40) {
         for(let j=0; j<canvas.height; j+=40) {
@@ -362,33 +419,31 @@ function draw() {
         }
     }
 
+    if (!gameStarted) return;
+
     // Draw Items
     items.forEach(item => {
         ctx.beginPath();
         if(item.type === 'material') {
-            // Draw a sparkling gem diamond shape
             ctx.fillStyle = item.color;
             ctx.moveTo(item.x, item.y - item.size);
             ctx.lineTo(item.x + item.size, item.y);
             ctx.lineTo(item.x, item.y + item.size);
             ctx.lineTo(item.x - item.size, item.y);
         } else {
-            // Draw custom collectible pink shield / armor gear item
             ctx.fillStyle = "#ff1493";
             ctx.arc(item.x, item.y, item.size, 0, Math.PI * 2);
         }
         ctx.fill();
-        // Shiny White Specular Highlight Dot
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(item.x - 2, item.y - 4, 3, 3);
     });
 
-    // Draw Enemies (Minions & Bosses)
+    // Draw Enemies
     enemies.forEach(enemy => {
         ctx.fillStyle = enemy.color;
         ctx.fillRect(enemy.x, enemy.y, enemy.size, enemy.size);
         
-        // Angry cute blush cheeks/eyes look
         ctx.fillStyle = "#ffffff";
         ctx.fillRect(enemy.x + 4, enemy.y + 6, 4, 4);
         ctx.fillRect(enemy.x + enemy.size - 8, enemy.y + 6, 4, 4);
@@ -396,7 +451,6 @@ function draw() {
         ctx.fillRect(enemy.x + 2, enemy.y + 12, 3, 2);
         ctx.fillRect(enemy.x + enemy.size - 5, enemy.y + 12, 3, 2);
 
-        // Monster HP Bar setup
         ctx.fillStyle = "#552233";
         ctx.fillRect(enemy.x, enemy.y - 10, enemy.size, 5);
         ctx.fillStyle = "#ff3385";
@@ -409,38 +463,33 @@ function draw() {
     const aColor = armorSelect.value;
     const wColor = weaponSelect.value;
 
-    // 1. Armor Body Sprite Square Base
     ctx.fillStyle = aColor;
     ctx.fillRect(player.x, player.y + 8, player.size, player.size - 8);
 
-    // 2. Skin Face Head Layer
     ctx.fillStyle = "#ffe4e1"; 
     ctx.fillRect(player.x + 4, player.y, player.size - 8, 10);
 
-    // 3. Customizable Hair Layer Overlay
     ctx.fillStyle = hColor;
-    ctx.fillRect(player.x + 2, player.y, player.size - 4, 4); // Hair top
-    ctx.fillRect(player.x + 2, player.y, 4, 12);              // Left strand
-    ctx.fillRect(player.x + player.size - 6, player.y, 4, 12); // Right strand
+    ctx.fillRect(player.x + 2, player.y, player.size - 4, 4); 
+    ctx.fillRect(player.x + 2, player.y, 4, 12);              
+    ctx.fillRect(player.x + player.size - 6, player.y, 4, 12); 
 
-    // 4. Little Cute Eyes
     ctx.fillStyle = "#4b0082";
     ctx.fillRect(player.x + 7, player.y + 5, 2, 3);
     ctx.fillRect(player.x + player.size - 9, player.y + 5, 2, 3);
 
-    // 5. Holding Customizable Weapon / Scepter Tool
     ctx.fillStyle = wColor;
-    ctx.fillRect(player.x + player.size - 2, player.y + 6, 4, 14); // Handle stick
+    ctx.fillRect(player.x + player.size - 2, player.y + 6, 4, 14); 
     ctx.fillStyle = "#ffffcc";
-    ctx.fillRect(player.x + player.size - 4, player.y + 2, 8, 5);  // Shiny Star tip
+    ctx.fillRect(player.x + player.size - 4, player.y + 2, 8, 5);  
 
-    // Draw Particles Effects
+    // Draw Particles
     particles.forEach(p => {
         ctx.fillStyle = p.color;
         ctx.fillRect(p.x, p.y, 4, 4);
     });
 
-    // Handle Game Over / Victory Overlay Text Screen
+    // End Game Screens
     if (gameOver) {
         ctx.fillStyle = "rgba(0, 0, 0, 0.75)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -466,19 +515,15 @@ function draw() {
     }
 }
 
-// Global Main Execution Loops
 function loop() {
     update();
     draw();
     requestAnimationFrame(loop);
 }
 
-// Start Setup Execution Engine Initializer
-initLevel(currentLevel);
-loop();
+// Initial draw call to render background prior to start
+draw();
 </script>
 
 </body>
 </html>
-
-```
